@@ -1,30 +1,31 @@
-import { formatDistanceToNow } from "date-fns";
-import { MoreHorizontalIcon, PencilIcon, Trash2Icon } from "lucide-react";
-import { toast } from "sonner";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { PriorityBadge } from "./PriorityBadge";
-import { cn } from "@/lib/utils";
-import { STATUS_LABEL, type ITask, type TTaskStatus } from "@/redux/features/tasks";
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
+import { cn } from '@/lib/utils';
+import { STATUS_LABEL, TASK_STATUS, type ITask, type TTaskStatus } from '@/redux/features/tasks';
+import { formatDistanceToNow } from 'date-fns';
+import { MoreHorizontalIcon, PencilIcon, Trash2Icon } from 'lucide-react';
+import { toast } from 'sonner';
+import { PriorityBadge } from './PriorityBadge';
 
 const STATUS_DOT: Record<TTaskStatus, string> = {
-  pending: "bg-slate-400",
-  "in-progress": "bg-blue-500",
-  done: "bg-emerald-500",
+    pending: 'bg-slate-400',
+    'in-progress': 'bg-blue-500',
+    done: 'bg-emerald-500'
 };
 
 interface IProps {
-  task: ITask;
-  onEdit: () => void;
+    task: ITask;
+    onEdit: (id: string) => void;
 }
 
 export function TaskItem({ task, onEdit }: IProps) {
@@ -49,7 +50,7 @@ export function TaskItem({ task, onEdit }: IProps) {
                     </span>
                     <span className="text-xs text-muted-foreground">·</span>
                     <span className="text-xs text-muted-foreground">
-                        {/* {formatDistanceToNow(task.updatedAt, { addSuffix: true })} */}
+                        {formatDistanceToNow(task.updatedAt, { addSuffix: true })}
                     </span>
                 </div>
 
@@ -81,11 +82,11 @@ export function TaskItem({ task, onEdit }: IProps) {
                 <DropdownMenuContent align="end" className="w-44">
                     <DropdownMenuLabel>Status</DropdownMenuLabel>
                     <DropdownMenuRadioGroup value={task.status} onValueChange={handleStatusChange}>
-                        {/* {TASK_STATUSES.map((s) => (
-              <DropdownMenuRadioItem key={s} value={s}>
-                {STATUS_LABEL[s]}
-              </DropdownMenuRadioItem>
-            ))} */}
+                        {TASK_STATUS.map(s => (
+                            <DropdownMenuRadioItem key={s} value={s}>
+                                {STATUS_LABEL[s]}
+                            </DropdownMenuRadioItem>
+                        ))}
                     </DropdownMenuRadioGroup>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onSelect={() => onEdit(task.id)}>

@@ -1,14 +1,29 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { TinitialState } from './tasks.type';
+import { createSlice, nanoid, type PayloadAction } from '@reduxjs/toolkit';
+import type { ITask, TinitialState } from './tasks.type';
 
-const initialState: TinitialState[] = [];
+const initialState: TinitialState = [];
 
 const tasksSlice = createSlice({
     name: 'tasks',
     initialState,
     reducers: {
-        addTask: (state, action) => {
-            state.push(action.payload);
+        addTask: {
+            prepare: (input: Pick<ITask, 'title' | 'description' | 'status' | 'priority'>) => {
+                const task = {
+                    id: nanoid(),
+                    title: input.title.trim(),
+                    description: input.description.trim(),
+                    status: input.status,
+                    priority: input.priority,
+                    createdAt: Date.now(),
+                    updatedAt: Date.now()
+                };
+
+                return { payload: task };
+            },
+            reducer: (state, action: PayloadAction<ITask>) => {
+                state.push(action.payload);
+            }
         }
     }
 });

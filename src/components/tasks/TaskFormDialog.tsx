@@ -22,7 +22,15 @@ import { addTask } from '@/redux/features/tasks/tasks.slice';
 import { useAppDispatch } from '@/redux/hooks';
 import { Controller, useForm } from 'react-hook-form';
 
-export function TaskFormDialog({ open, mode, onClose }) {
+type TDialogMode = "edit" | "create";
+
+interface IProps {
+    open: boolean;
+    mode: TDialogMode;
+    onClose: () => void;
+}
+
+export function TaskFormDialog({ open, mode, onClose }: IProps) {
     const { register, handleSubmit, control } = useForm();
     const dispatch = useAppDispatch();
 
